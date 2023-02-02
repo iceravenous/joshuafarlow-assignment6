@@ -25,6 +25,7 @@ public class FileService {
 		//Tesla teslaMonth = new Tesla;
 		//List<Tesla> teslaSales = new ArrayList<>();
 		fileReader = new BufferedReader(new FileReader(filename));
+		fileReader.readLine();
 		
 		while ((line = fileReader.readLine()) != null) {
 			String[] lineData = line.split(",");

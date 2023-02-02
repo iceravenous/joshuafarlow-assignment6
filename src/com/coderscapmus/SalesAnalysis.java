@@ -1,11 +1,17 @@
 package com.coderscapmus;
 
 
+import java.time.YearMonth;
 import java.util.ArrayList;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.HashMap;
 
 import com.coderscapmus.FileService;
 import com.coderscapmus.Tesla;
@@ -49,6 +55,9 @@ public class SalesAnalysis {
 //		for(Tesla month:tesla3Sales) {
 //			System.out.println(month);
 //		}
+		Tesla teslaTest = new Tesla("Jan-23", "2300");
+		teslaTest.yDate = YearMonth.parse("Feb-23", teslaTest.dateTimeFormatter);
+		System.out.println(teslaTest.yDate);
 		printReport(tesla3Sales);
 	}
 	
@@ -57,13 +66,40 @@ public class SalesAnalysis {
 		System.out.println(tesla3Sales);
 		System.out.println("---------------------");
 		
+		List<String> dates = tesla3Sales.stream()
+								.map(date -> date.getDate())
+								.filter(x -> x.endsWith("17"))
+								.collect(Collectors.toList());
+		//System.out.println(dates);
+		
+		List<Integer> sales = tesla3Sales.stream()
+					
+					.map(sale -> sale.getSales())
+					.map(Integer::valueOf)
+					.collect(Collectors.toList());
+		
+		Map<String, List<Tesla>> groupedByYear = tesla3Sales.stream()
+	//			.filter(map -> map.endsWith("17"))
+				.collect(Collectors.groupingBy((year) -> year.getDate()));
+				
+		Set<Entry<String, List<Tesla>>> entrySet = groupedByYear.entrySet();
+		
+		entrySet.stream()
+			.forEach((entry) -> {
+				System.out.println(entry.getKey() + " -> " + entry.getValue());
+			});
+		// System.out.println(sales);
+		
+		int sum17 = 0;
+		
+		
 		
 		/*
 		 * open stream -> collect just the 2017 year, focus on price and get sum (then same for remaining years)
 		 * open stream - > collect best month
 		 * open stream - > collect worst month
 		 */
-		System.out.println("2017 -> Number1");
+		System.out.println("2017 -> " + sum17);
 		System.out.println("2018 -> Number2");
 		System.out.println("2019 -> Number3\n");
 		System.out.println("The Best month for Model 3 was: yyyy-MM");
