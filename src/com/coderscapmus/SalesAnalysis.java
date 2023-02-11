@@ -1,6 +1,7 @@
 package com.coderscapmus;
 
-
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.time.YearMonth;
 import java.util.ArrayList;
 
@@ -46,31 +47,33 @@ public class SalesAnalysis {
 		 */
 		
 		//Tesla[] tesla3Sales = FileService.getSalesListFromFile("model3.csv");
+		
 		List<Tesla> tesla3Sales = new ArrayList<>();
 		FileService.getSalesListFromFile(tesla3Sales, "model3.csv");
-//		tesla3Sales.add(new Tesla("Jul-17", 30));
-//		tesla3Sales.add(new Tesla("Dec-17", 1060));
-//		tesla3Sales.add(new Tesla("Feb-18", 2485));
-//		System.out.println(tesla3Sales);
-//		for(Tesla month:tesla3Sales) {
-//			System.out.println(month);
-//		}
-		Tesla teslaTest = new Tesla("Jan-23", "2300");
-		teslaTest.yDate = YearMonth.parse("Feb-23", teslaTest.dateTimeFormatter);
-		System.out.println(teslaTest.yDate);
-		printReport(tesla3Sales);
+
+		printReport(tesla3Sales, "Model 3");
 	}
 	
-	public static void printReport(List<Tesla> tesla3Sales) {
-		System.out.println("Model 3 Yearly Sales Report");
+	public static void printReport(List<Tesla> tesla3Sales, String model) {
+		System.out.println(model + " Yearly Sales Report");
 		System.out.println(tesla3Sales);
 		System.out.println("---------------------");
 		
 		List<String> dates = tesla3Sales.stream()
 								.map(date -> date.getDate())
-								.filter(x -> x.endsWith("17"))
+								//.filter(x -> x.endsWith("17"))
 								.collect(Collectors.toList());
-		//System.out.println(dates);
+//		List<String> numbers = dates.stream()
+//				.flatMap(x->x.getSales().stream())
+//				.collect(Collectors.toList());
+		
+//		long sum = dates.stream()
+//				.flatMap(x -> x.stream())
+//				.mapToInt(x -> x.getSales())
+//				.sum();
+		System.out.println("Just print dates\n==================\n");
+		System.out.println(dates);
+		System.out.println("===================");
 		
 		List<Integer> sales = tesla3Sales.stream()
 					
@@ -79,15 +82,20 @@ public class SalesAnalysis {
 					.collect(Collectors.toList());
 		
 		Map<String, List<Tesla>> groupedByYear = tesla3Sales.stream()
-	//			.filter(map -> map.endsWith("17"))
+				
 				.collect(Collectors.groupingBy((year) -> year.getDate()));
 				
 		Set<Entry<String, List<Tesla>>> entrySet = groupedByYear.entrySet();
+
+		for(Entry<String, String> e: map.entrySet()) {
+			
+		}
 		
 		entrySet.stream()
 			.forEach((entry) -> {
 				System.out.println(entry.getKey() + " -> " + entry.getValue());
 			});
+		
 		// System.out.println(sales);
 		
 		int sum17 = 0;
@@ -99,12 +107,12 @@ public class SalesAnalysis {
 		 * open stream - > collect best month
 		 * open stream - > collect worst month
 		 */
-		System.out.println("2017 -> " + sum17);
-		System.out.println("2018 -> Number2");
-		System.out.println("2019 -> Number3\n");
-		System.out.println("The Best month for Model 3 was: yyyy-MM");
-		System.out.println("The Worst month for Model 3 was: yyyy-MM");
-		
+//		System.out.println("2017 -> " + sum17);
+//		System.out.println("2018 -> Number2");
+//		System.out.println("2019 -> Number3\n");
+//		System.out.println("The Best month for Model 3 was: yyyy-MM");
+//		System.out.println("The Worst month for Model 3 was: yyyy-MM");
+//		
 	}
 
 }
