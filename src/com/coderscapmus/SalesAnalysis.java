@@ -18,7 +18,19 @@ public class SalesAnalysis {
 		List<Tesla> tesla3Sales = new ArrayList<>();
 		FileService.getSalesListFromFile(tesla3Sales, "model3.csv");
 
+		List<Tesla> teslaSSales = new ArrayList<>();
+		FileService.getSalesListFromFile(teslaSSales, "modelS.csv");
+		
+		List<Tesla> teslaXSales = new ArrayList<>();
+		FileService.getSalesListFromFile(teslaXSales, "modelX.csv");
+		
+		
+		
+		
+
 		printReport(tesla3Sales, "Model 3");
+		printReport2(teslaSSales, "Model S");
+		printReport2(teslaXSales, "Model X");
 	}
 	
 	public static void printReport(List<Tesla> tesla3Sales, String model) {
@@ -44,8 +56,34 @@ public class SalesAnalysis {
 //				.max(Comparator.comparingInt(Tesla::getSalesInt));
 
               
-		System.out.println("The Best month for Model 3 was: " + salesMax);
-		System.out.println("The Worst month for Model 3 was: " + salesMin);
+		System.out.println("\nThe Best month for " + model + " was: " + salesMax.get());
+		System.out.println("\nThe Worst month for " + model + " was: " + salesMin.get()+"\n");
+		
+	}
+	
+	public static void printReport2(List<Tesla> tesla3Sales, String model) {
+		System.out.println(model + " Yearly Sales Report");
+		System.out.println("---------------------");
+		
+		long sum16 = SumYear(tesla3Sales, 2016);
+		long sum17 = SumYear(tesla3Sales, 2017);
+		long sum18 = SumYear(tesla3Sales, 2018);
+		long sum19 = SumYear(tesla3Sales, 2019);
+	
+		System.out.println("2016 -> " + sum16);
+		System.out.println("2017 -> " + sum17);
+		System.out.println("2018 -> " + sum18);
+		System.out.println("2019 -> " + sum19);
+
+		Optional<Tesla>salesMax = tesla3Sales.stream()
+				.max(Comparator.comparingInt(Tesla::getSalesInt));
+		
+		Optional<Tesla>salesMin = tesla3Sales.stream()
+				.min(Comparator.comparingInt(Tesla::getSalesInt));
+
+            
+		System.out.println("\nThe Best month for " + model + " was: " + salesMax.get());
+		System.out.println("\nThe Worst month for " + model + " was: " + salesMin.get()+"\n");
 		
 	}
 
